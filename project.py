@@ -137,6 +137,18 @@ def GetLargest(largest):
             maxx = Piles[i]
     return pos
 
+#handles logs events
+def AddLogEvent(CurrentEvent):
+    LogsEvents.append(CurrentEvent)
+    GameLogs.set("")
+    LogsSize = len(LogsEvents)
+    if LogsSize <= 8:
+        for LogEvent in LogsEvents:
+            GameLogs.set(GameLogs.get() + LogEvent + '\n')
+    else:
+        for i in range(LogsSize - 8, LogsSize):
+            GameLogs.set(GameLogs.get() + LogsEvents[i] + '\n')
+            
 #handles computer move by computing the nim sum if   
 def ComputerPlay():
     print("Before: " + str(Piles))
@@ -160,7 +172,7 @@ def ComputerPlay():
             pos = i
     else:
         take = Piles[pos] - (Piles[pos] ^ Xor)
-    GameLogs.set(GameLogs.get() + "computer takes " + str(take) + " balls frome pile " + str(pos + 1) + "\n")
+    AddLogEvent("computer takes " + str(take) + " balls frome pile " + str(pos + 1))
     UpdatePile(pos, take)
     print("After: " + str(Piles))
 
@@ -198,7 +210,7 @@ def user_input():
         
     if index >= 0 and index < size and value > 0 and value <= Piles[index]:
         frame5.pack(pady = (20, 0))
-        GameLogs.set(GameLogs.get() + "player takes " + str(value) + " balls frome pile " + str(index + 1) + "\n")
+        AddLogEvent("player takes " + str(value) + " balls frome pile " + str(index + 1))
         PileNumber.set(""), RemoveCount.set("")
         UpdatePile(index, value)
         if check():
@@ -209,15 +221,16 @@ def user_input():
         ComputerPlay()
         if check():
             GameLogs.set("")
-            logs.forget()
+            logs.pack_forget()
             LoadFinalImage(False)
     else:
         ExceptionInvalidInput()
 
 #restart the game
 def user_restart():
+    global LogsEvents
     generatePiles()
-    GameLogs.set("")
+    LogsEvents = []
     PileNumber.set("")
     RemoveCount.set("")
     FinalImage.pack_forget()
