@@ -20,17 +20,17 @@ Piles = [None] * size
 Images = []
 LogsEvents = []
 #list containg image pathes
-Pathes = ["Empty.png",
-          "balls1.png",
-          "balls2.png",
-          "balls3.png",
-          "balls4.png",
-          "balls5.png",
-          "balls6.png",
-          "balls7.png"]
-WinPath = "YouWin.png"
-LosePath = "Gameover.png"
-StartWindowPath = "startWin.jpg"
+Pathes = ["assets/Empty.png",
+          "assets/balls1.png",
+          "assets/balls2.png",
+          "assets/balls3.png",
+          "assets/balls4.png",
+          "assets/balls5.png",
+          "assets/balls6.png",
+          "assets/balls7.png"]
+WinPath = "assets/YouWin.png"
+LosePath = "assets/Gameover.png"
+StartWindowPath = "assets/startWin.jpg"
 Pag1 = None
 Page2 = None
 frame5 = None
@@ -118,13 +118,14 @@ E2 = Entry(frame3,
            textvariable = RemoveCount)
 E2.pack(side = LEFT)
     
-#game logic
+#update pile and image
 def UpdatePile(Index, value):
     Piles[Index] -= value
     NewPhoto = ImageTk.PhotoImage(Image.open(Pathes[Piles[Index]]))
     Images[Index].config(image = NewPhoto)
     Images[Index].image = NewPhoto
 
+#get the position contatining the largest number containg bit 2^(largest - 1) on
 def GetLargest(largest):
     if largest == 0:
         return -1
